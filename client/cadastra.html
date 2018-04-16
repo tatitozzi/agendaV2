@@ -1,0 +1,69 @@
+<html<<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Page Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="assets\style\buefy.min.css" />
+        <script src="main.js"></script>
+    </head>
+    <body>
+
+        <div>
+            <div>
+                    <div id="app" class="container">
+    
+                <section class="field is-horizontal">
+                        <form>
+                        <b-field>
+                                <b-input placeholder="Nome" type="text"></b-input>
+                            </b-field>
+                            
+                            <b-field>
+                                <b-input placeholder="Email" type="email"></b-input>
+                            </b-field>
+                    
+                            <b-field>
+                                    <a class="button is-static">
+                                            +55
+                                          </a>
+                                <b-input placeholder="Number" type="tel" maxlength="12">
+                                    
+                                </b-input>
+                            </b-field>
+                    
+                            <b-field>
+                                <b-input placeholder="URL" type="url"></b-input>
+                            </b-field>
+                    
+                            <b-field>
+                                <b-input type="textarea"
+                    minlength="10"
+                    maxlength="100"
+                    placeholder="Maxlength automatically counts characters">
+                                </b-input>
+                            </b-field>
+                        </form>
+                </section>
+            
+            </div>
+                        
+
+            </div>
+
+        </div>
+        
+        <script src='assets/vue.min.js'></script>
+        <script src='assets/index.js'></script>
+        <script>
+            Vue.use(Buefy.default);
+
+                var app = new Vue();
+                
+                app.$mount('#app');
+                //# sourceURL=pen.js
+        </script>
+    </body>
+    </html>
