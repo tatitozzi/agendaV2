@@ -87,72 +87,88 @@
             <b-tabs position="is-centered" class="block">
                 <b-tab-item label="Cadastrar">
                 <!--- CADASTRAR -->
-                  <div> 
-                    <div>
-                        <div> 
-                            <div id="app" class="container"></div>
-                              <section class="field is-horizontal">
-                            <form>
-                              <div class="item" >
-                                  <label class="label git is-normal" >Nome: </label>
-                                <b-field> 
-                                  <input class="name input" placeholder="Nome" type="text">
-                                </b-field>
-                               </div>
-  
-                               <div class="item" >
-                                  <label class="label" >Apelido: </label>  
-                                <b-field> 
-                                    <b-input class="nickname" placeholder="Nome" type="text"></b-input>
-                                  </b-field>
-                                 </div>
-  
-                                 <div class="item" >
-                                    <label class="label" >E-mail: </label>
-                                    <b-field> 
-                                       <b-input class="email" placeholder="nome@mail.com" type="email"></b-input>
-                                    </b-field>
-                                   </div>
-  
-                                   <div class="component component-phone">
-                                         <label class="label" for="">Telefones: </label>
-                                  </div>
+                
+                <h3 id="cadastra" class="title is-4 is-spaced bd-anchor-title">
+                    <span class="bd-anchor-name">
+                      Novo cadastro
+                    </span>
+                    <a class="bd-anchor-link" href="#cadastra">
+                    </a>
+                  </h3> 
 
-                                  <div class="component component-phone">
-                                  <div class="item field has-addons has-addons-right">
-                                      
-                                      <p class="control">
-                                        <div>
-                                        <input class="input" type="text" placeholder="XXX-XXX-XXX">
-                                      </div>
-                                      </p>
-                                      <p class="control">
-                                        <a class="button is-primary">
-                                          +
-                                        </a>
-                                      </p>
-                                    </div>
-                                  </div>
-
-
-
-                                  <div>
-                                      <button class="enviar-dados button is-primary">salvar</button>
-                                  </div>               
-                                  </form>
-                          </section>
-                            
-                            </div>
-                    </div>
-                  </div>
-              </b-tab-item>
-              <!--- CADASTRAR -->
-                <b-tab-item label="Listar">
                   
-                
-                
-                </b-tab-item>
+                  <div id="app" class="container bd-footer-stars">
+                      <section class="container is-fluid">
+
+</section>
+</div>
+
+<form>
+<div class="item" >
+    <label class="label git is-normal" >Nome: </label>
+  <b-field> 
+    <input class="name input" placeholder="Nome" type="text">
+  </b-field>
+ </div>
+
+ <div class="item" >
+    <label class="label" >Apelido: </label>  
+  <b-field> 
+      <b-input class="nickname" placeholder="Nome" type="text"></b-input>
+    </b-field>
+   </div>
+
+   <div class="item " >
+      <label class="label" >E-mail: </label>
+      <b-field> 
+         <b-input class="email field has-addons has-addons-left" placeholder="nome@mail.com" type="email"></b-input>
+      </b-field>
+     </div>
+      <br>
+      
+     <div class="field is-grouped component component-phone">
+        <label class="label" for="">Telefones: </label>
+         <div class="item"> </div> 
+            <p class="control is-expanded">
+              <input class="input" type="text" type="tel" placeholder="XXX-XXX-XXX" maxlength="12">
+            </p>
+            <p class="control">
+              <a class="button is-info is-primary">
+                +
+              </a>
+            </p>
+        </div>
+
+          <br>                                 
+    <div class="field is-grouped is-grouped-right">
+        <p class="control">
+          <a class="enviar-dados button is-primary">
+            Salvar
+          </a>
+        </p>
+        <p class="control">
+          <a class="button is-light">
+            Cancelar
+          </a>
+        </p>
+      </div>
+
+    </form>
+                 <!--- CADASTRAR -->
+              </b-tab-item>
+              
+                <b-tab-item label="Listar">
+              
+              <!--- LISTAR -->
+
+
+
+
+              <!--- LISTAR -->    
+              
+              </b-tab-item>
             </b-tabs>
+    </section>
     </div>​
 
 
