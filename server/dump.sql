@@ -22,8 +22,8 @@ DROP TABLE IF EXISTS `pessoa`;
 
 CREATE TABLE `pessoa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `nickname` varchar(255) DEFAULT NULL,
+  `nome` varchar(255) DEFAULT NULL,
+  `apelido` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -36,7 +36,7 @@ DROP TABLE IF EXISTS `telefones`;
 
 CREATE TABLE `telefones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` varchar(50) DEFAULT NULL,
+  `numero` varchar(50) DEFAULT NULL,
   `pessoa` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pk_pessoa_telefone` (`pessoa`),

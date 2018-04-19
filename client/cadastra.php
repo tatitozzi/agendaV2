@@ -58,7 +58,7 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "save" && $nome != "") {
 // Bloco if que recupera as informações no formulário, etapa utilizada pelo Update
 if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "upd" && $id != "") {
     try {
-        $stmt = $conexao->prepare("SELECT * FROM pessoa WHERE id = ?");
+        $stmt = $conexao->prepare("SELECT * FROM pessoa, telefones"); //alterar!!!
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         if ($stmt->execute()) {
             $rs = $stmt->fetch(PDO::FETCH_OBJ);
@@ -66,7 +66,7 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "upd" && $id != "") {
             $nome = $rs->nome;
             $apelido = $rs->apelido;
             $email = $rs->email;
-            $telefones = $rs->telefones;
+            $numero = $rs->numero;
 
         } else {
             echo "<p class=\"bg-danger\">Erro: Não foi possível executar a declaração sql</p>";
@@ -79,10 +79,10 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "upd" && $id != "") {
 // Bloco if utilizado pela etapa Delete
 if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "del" && $id != "") {
     try {
-        $stmt = $conexao->prepare("DELETE FROM pessoa WHERE id = ?");
+        $stmt = $conexao->prepare("DELETE FROM pessoa WHERE id = ?"); // alterar!! ()
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         if ($stmt->execute()) {
-            echo "<p class=\"bg-success\">Registo foi excluído com êxito</p>";
+            echo "<p class=\"bg-success\">Registro foi excluído com êxito</p>";
             $id = null;
         } else {
             echo "<p class=\"bg-danger\">Erro: Não foi possível executar a declaração sql</p>";
@@ -200,25 +200,45 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "del" && $id != "") {
 </div>
 
 <form action="?act=save" method="POST">
+
+<input type="hidden" name="id" value="<?php
+// Preenche o id no campo id com um valor "value"
+echo (isset($id) && ($id != null || $id != "")) ? $id : '';
+
+?>" />
 	
 <div class="item" >
     <label class="label git is-normal" >Nome: </label>
   <b-field> 
-    <input class="name input" id="name"  placeholder="Nome" type="text">
+    <input class="name input" id="nome"  placeholder="Nome" type="text" 
+    value="<?php
+    // Preenche o nome no campo nome com um valor "value"
+    echo (isset($nome) && ($nome != null || $nome != "")) ? $nome : '';
+
+    ?>">
   </b-field>
  </div>
 
  <div class="item" >
     <label class="label" >Apelido: </label>  
   <b-field> 
-      <b-input class="nickname" id="nickname" placeholder="Nome" type="text"></b-input>
+      <b-input class="nickname" id="apelido" placeholder="apelido" type="text" value="<?php
+    // Preenche o nome no campo apelido com um valor "value"
+    echo (isset($apelido) && ($apelido != null || $apelido != "")) ? $apelido : '';
+
+    ?>">></b-input>
     </b-field>
    </div>
 
    <div class="item " >
       <label class="label" >E-mail: </label>
       <b-field> 
-         <b-input class="email field has-addons has-addons-left" id="email" placeholder="nome@mail.com" type="email"></b-input>
+         <b-input class="email field has-addons has-addons-left" id="email" placeholder="nome@mail.com" 
+         type="email" value="<?php
+    // Preenche o nome no campo email com um valor "value"
+    echo (isset($email) && ($email != null || $email != "")) ? $email : '';
+
+    ?>">></b-input>
       </b-field>
      </div>
       <br>
@@ -227,7 +247,13 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "del" && $id != "") {
         <label class="label" for="">Telefones: </label>
          <div class="item"> </div> 
             <p class="control is-expanded">
-              <input class="input" id="phones" type="text" type="tel" placeholder="XXX-XXX-XXX" maxlength="12">
+              <input class="numero input" id="numero" type="text" type="tel" placeholder="XXX-XXX-XXX" maxlength="12"
+              value="<?php
+              // Preenche o nome no campo nome com um valor "value"
+              echo (isset($numero) && ($numero != null || $numero != "")) ? $numero : '';
+
+              ?>">
+              
             </p>
             <p class="control">
               <a class="button is-info is-primary">
@@ -273,19 +299,26 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "del" && $id != "") {
                 </thead>
                 <tbody>
 					 <?php
-                                /**
+ 
+                               /**
                                  *  Bloco que realiza o papel do Read - recupera os dados e apresenta na tela
                                  */
                                 try {
-                                    $stmt = $conexao->prepare("SELECT * FROM pessoa");
+                                    $stmt = $conexao->prepare("SELECT * FROM pessoa inner join telefones on pessoa.id = telefones.pessoa");
+                                  
+                                    
+
+                                    
+                                    $stmt->execute(["id"=>1]);
                                     if ($stmt->execute()) {
                                         while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) {
 
                                             ?><tr>
+                                                <td><?php echo $rs->id; ?></td>
                                                 <td><?php echo $rs->nome; ?></td>
                                                 <td><?php echo $rs->apelido; ?></td>
                                                 <td><?php echo $rs->email; ?></td>
-                                                <td><?php echo $rs->telefones; ?></td>
+                                                <td><?php echo $rs->numero; ?></td>
                                                 <td><center>
                                             <a href="?act=upd&id=<?php echo $rs->id; ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
                                             <a href="?act=del&id=<?php echo $rs->id; ?>" class="btn btn-danger btn-xs" ><span class="glyphicon glyphicon-remove"></span> Excluir</a>
@@ -326,7 +359,7 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "del" && $id != "") {
                 var app = new Vue();
                 
                 app.$mount('#app');
-                //# sourceURL=pen.js
+               
         </script>
 
 <script async type="text/javascript" src="../js/bulma.js"></script>

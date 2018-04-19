@@ -1,10 +1,12 @@
 <?php
+
 return new class {
     private $pdo;
 
     function __construct() {       
         $this->pdo = new PDO(
-            "mysql:host=localhost;dbname=agenda", 
+            "mysql:host=localhost;
+            dbname=agenda", 
             "root", 
             "",
             [
@@ -20,7 +22,7 @@ return new class {
         $result = $sth->fetchAll();
         print_r($result);
     }
-
+/*
     function insert($table, $data) {
         $columnNames = implode(", ", array_keys($data));
         $columnValuesRef = ":" . implode(", :", array_keys($data));
@@ -28,4 +30,5 @@ return new class {
         $sth->execute($data);
         return $this->pdo->lastInsertId();
     }
+   */ 
 };

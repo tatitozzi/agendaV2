@@ -1,100 +1,4 @@
-<?php
-
-// Verificar se foi enviando dados via POST
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id = filter_input(INPUT_POST, 'id');
-    $nome = filter_input(INPUT_POST, 'nome');
-    $apelido = filter_input(INPUT_POST, 'apelido');
-    $email = filter_input(INPUT_POST, 'email');
-    $telefones = filter_input(INPUT_POST, 'telefones');
-} else if (!isset($id)) {
-// Se não se não foi setado nenhum valor para variável $id
-    $id = (isset($_GET["id"]) && $_GET["id"] != null) ? $_GET["id"] : "";
-}
-
-// Cria a conexão com o banco de dados
-try {
-    $conexao = new PDO("mysql:host=localhost;dbname=agenda", "root", "");
-    $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conexao->exec("set names utf8");
-} catch (PDOException $erro) {
-    echo "<p class=\"bg-danger\">Erro na conexão:" . $erro->getMessage() . "</p>";
-}
-
-// Bloco If que Salva os dados no Banco - atua como Create e Update
-if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "save" && $nome != "") {
-    try {
-        if ($id != "") {
-            $stmt = $conexao->prepare("UPDATE pessoa SET nome=?, apelido=?, email=?, telefones=? WHERE id = ?");
-            $stmt->bindParam(10, $id);
-        } else {
-            $stmt = $conexao->prepare("INSERT INTO pessoa (nome, apelido, email, telefones) VALUES (?, ?, ?, ?)");
-        }
-        $stmt->bindParam(1, $nome);
-        $stmt->bindParam(2, $apelido);
-        $stmt->bindParam(3, $email);
-        $stmt->bindParam(4, $telefones);
-
-        if ($stmt->execute()) {
-            if ($stmt->rowCount() > 0) {
-                echo "<p class=\"bg-success\">Dados cadastrados com sucesso!</p>";
-                $id = null;
-                $nome = null;
-                $apelido = null;
-                $email = null;
-                $telefones = null;
-
-            } else {
-                echo "<p class=\"bg-danger\">Erro ao tentar efetivar cadastro</p>";
-            }
-        } else {
-            echo "<p class=\"bg-danger\">Erro: Não foi possível executar a declaração sql</p>";
-        }
-    } catch (PDOException $erro) {
-        echo "<p class=\"bg-danger\">Erro: " . $erro->getMessage() . "</p>";
-    }
-}
-
-// Bloco if que recupera as informações no formulário, etapa utilizada pelo Update
-if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "upd" && $id != "") {
-    try {
-        $stmt = $conexao->prepare("SELECT * FROM pessoa WHERE id = ?");
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        if ($stmt->execute()) {
-            $rs = $stmt->fetch(PDO::FETCH_OBJ);
-            $id = $rs->id;
-            $nome = $rs->nome;
-            $apelido = $rs->apelido;
-            $email = $rs->email;
-            $telefones = $rs->telefones;
-
-        } else {
-            echo "<p class=\"bg-danger\">Erro: Não foi possível executar a declaração sql</p>";
-        }
-    } catch (PDOException $erro) {
-        echo "<p class=\"bg-danger\">Erro: " . $erro->getMessage() . "</p>";
-    }
-}
-
-// Bloco if utilizado pela etapa Delete
-if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "del" && $id != "") {
-    try {
-        $stmt = $conexao->prepare("DELETE FROM pessoa WHERE id = ?");
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        if ($stmt->execute()) {
-            echo "<p class=\"bg-success\">Registo foi excluído com êxito</p>";
-            $id = null;
-        } else {
-            echo "<p class=\"bg-danger\">Erro: Não foi possível executar a declaração sql</p>";
-        }
-    } catch (PDOException $erro) {
-        echo "<p class=\"bg-danger\">Erro: " . $erro->getMessage() . "</a>";
-    }
-}
-
-?>
-
-<!DOCTYPE html>
+<html<<!DOCTYPE html>
     <html>
     <head>
         <meta charset="utf-8" />
@@ -200,7 +104,6 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "del" && $id != "") {
 </div>
 
 <form action="?act=save" method="POST">
-	
 <div class="item" >
     <label class="label git is-normal" >Nome: </label>
   <b-field> 
@@ -272,38 +175,6 @@ if (isset($_REQUEST["act"]) && $_REQUEST["act"] == "del" && $id != "") {
                   </tr>
                 </thead>
                 <tbody>
-					 <?php
-                                /**
-                                 *  Bloco que realiza o papel do Read - recupera os dados e apresenta na tela
-                                 */
-                                try {
-                                    $stmt = $conexao->prepare("SELECT * FROM pessoa");
-                                    if ($stmt->execute()) {
-                                        while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) {
-
-                                            ?><tr>
-                                                <td><?php echo $rs->nome; ?></td>
-                                                <td><?php echo $rs->apelido; ?></td>
-                                                <td><?php echo $rs->email; ?></td>
-                                                <td><?php echo $rs->telefones; ?></td>
-                                                <td><center>
-                                            <a href="?act=upd&id=<?php echo $rs->id; ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
-                                            <a href="?act=del&id=<?php echo $rs->id; ?>" class="btn btn-danger btn-xs" ><span class="glyphicon glyphicon-remove"></span> Excluir</a>
-                                        </center>
-                                        </td>
-                                        </tr>
-                                        <?php
-                                    }
-                                } else {
-                                    echo "Erro: Não foi possível recuperar os dados do banco de dados";
-                                }
-                            } catch (PDOException $erro) {
-                                echo "Erro: " . $erro->getMessage();
-                            }
-
-                            ?>
-				
-				
                 </tbody>
               </table>
 
